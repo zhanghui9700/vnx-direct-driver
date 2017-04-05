@@ -1167,8 +1167,7 @@ class CommandLineHelper(object):
         command_copy_snapshot = ('snap', '-copy',
                                  '-id', src_snap_name,
                                  '-name', new_name,
-                                 '-ignoreMigrationCheck',
-                                 '-ignoreDeduplicationCheck')
+                                 '-ignoreMigrationCheck')
 
         out, rc = self.command_execute(*command_copy_snapshot)
         if rc != 0:
@@ -2436,7 +2435,7 @@ class EMCVnxCliBase(object):
 
     def _get_extra_spec_value(self, extra_specs):
         """Gets EMC extra spec values."""
-        provisioning = 'thick'
+        provisioning = 'thin'
         if self._client.provisioning_specs[0] in extra_specs:
             provisioning = (
                 extra_specs[self._client.provisioning_specs[0]].lower())
@@ -3093,6 +3092,7 @@ class EMCVnxCliBase(object):
         return volume['metadata'] if 'metadata' in volume else {}
 
     def _is_snapcopy_enabled(self, volume):
+        return True
         meta = self._get_volume_metadata(volume)
         return 'snapcopy' in meta and meta['snapcopy'].lower() == 'true'
 
